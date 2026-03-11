@@ -7,11 +7,8 @@ from IA.sistema_experto.riskModel import predict_risk
 
 app = Flask(__name__)
 
-# Habilitar CORS para llamadas desde tu frontend
-CORS(
-    app,
-    resources={r"/api/*": {"origins": "*"}}
-)
+# Habilitar CORS para todas las rutas y orígenes
+CORS(app)
 
 @app.route("/api/predict", methods=["POST"])
 def predict():
