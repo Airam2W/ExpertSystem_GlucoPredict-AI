@@ -3,7 +3,7 @@
 
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-from sistema_experto.riskModel import predict_risk
+from IA.sistema_experto.riskModel import predict_risk
 
 app = Flask(__name__)
 
