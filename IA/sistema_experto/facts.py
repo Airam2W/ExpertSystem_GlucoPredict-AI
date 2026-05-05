@@ -4,9 +4,14 @@ FACTS = [
     "edad",
     "imc",
     "glucosa",
+    "hba1c", #
     "presion_sistolica",
     "hipertension",
     "antecedentes_familiares_diabetes",
     "actividad_fisica",
-    "alcohol"
+    "alcohol",
+
+    "trigliceridos", #
+    "hdl", #
+    "circunferencia_cintura" #
 ]
