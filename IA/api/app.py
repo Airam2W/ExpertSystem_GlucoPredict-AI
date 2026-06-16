@@ -1,9 +1,7 @@
-# Ejecutar desde cd IA -> python -m api.app
-
-
+import os
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-from IA.sistema_experto.riskModel import predict_risk
+from IA.sistema_experto.modelSUnificate import clinicPrediction, conductualPrediction
 
 app = Flask(__name__)
 
@@ -13,8 +11,19 @@ CORS(app)
 @app.route("/api/predict", methods=["POST"])
 def predict():
     data = request.json
-    historial = predict_risk(data)
-    return jsonify({ "historial": historial })
+    return jsonify({ "data": data })
+
+@app.route("/api/clinic", methods=["POST"])
+def predict_clinic():
+    data = request.json
+    clinic_result = clinicPrediction(data)
+    return jsonify({ "clinic_result": clinic_result })
+
+@app.route("/api/conductual", methods=["POST"])
+def predict_conductual():
+    data = request.json
+    conductual_result = conductualPrediction(data)
+    return jsonify({ "conductual_result": conductual_result })
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
