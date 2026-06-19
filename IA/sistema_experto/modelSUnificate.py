@@ -3,6 +3,7 @@
 import pandas as pd
 from catboost import CatBoostClassifier
 import os
+from IA.sistema_experto.graphics import getMetrics
 
 
 
@@ -13,7 +14,8 @@ def clinicPrediction(input_data):
     input_df = pd.DataFrame([input_data])
     y_pred_proba = model.predict_proba(input_df)[:, 1]
     results = y_pred_proba[0].round(4)
-    return results
+    results_porcent = round(results * 100, 2)
+    return results_porcent
 
 def conductualPrediction(input_data):
     model = CatBoostClassifier()
@@ -22,4 +24,10 @@ def conductualPrediction(input_data):
     input_df = pd.DataFrame([input_data])
     y_pred_proba = model.predict_proba(input_df)[:, 1]
     results = y_pred_proba[0].round(4)
-    return results
+    results_porcent = round(results * 100, 2)
+    return results_porcent
+
+def getMetricas(historial):
+    clinico = historial.get("clinico", {})
+    conductual = historial.get("conductual", {})
+    return getMetrics(clinico, conductual)

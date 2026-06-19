@@ -1,7 +1,7 @@
 import os
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-from IA.sistema_experto.modelSUnificate import clinicPrediction, conductualPrediction
+from IA.sistema_experto.modelSUnificate import clinicPrediction, conductualPrediction, getMetricas
 
 app = Flask(__name__)
 
@@ -24,6 +24,12 @@ def predict_conductual():
     data = request.json
     conductual_result = conductualPrediction(data)
     return jsonify({ "conductual_result": conductual_result })
+
+@app.route("/api/metricas", methods=["POST"])
+def get_metricas():
+    data = request.json
+    metricas_result = getMetricas(data)
+    return jsonify({ "metricas_result": metricas_result })
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
