@@ -99,6 +99,11 @@ cb_model.fit(X_train, y_train)
 
 cb_model.save_model("conductualModel.cbm")
 
+import pickle
+with open("X_train_conductual.pkl", "wb") as f:
+    pickle.dump(X_train, f)
+
+
 # ============================================================
 # PREDICTION
 # ============================================================

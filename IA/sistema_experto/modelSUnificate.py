@@ -1,9 +1,12 @@
 # Intermediary of Clinic Model & Conductual Model
 
+import pickle
+
 import pandas as pd
 from catboost import CatBoostClassifier
 import os
 from IA.sistema_experto.graphics import getMetrics
+from IA.sistema_experto.eyra import getEYRAnalysis, unificarData
 
 
 
@@ -31,3 +34,15 @@ def getMetricas(historial):
     clinico = historial.get("clinico", {})
     conductual = historial.get("conductual", {})
     return getMetrics(clinico, conductual)
+    
+def getEYRA(historial):
+    dataUnificada = unificarData(historial)
+    prob_clinica = clinicPrediction(historial.get("clinico", {}))
+    prob_conductual = conductualPrediction(historial.get("conductual", {}))
+    model_clinico = CatBoostClassifier()
+    model_clinico.load_model(os.path.join(os.path.dirname(__file__), "clinicModel.cbm"))
+    model_conductual = CatBoostClassifier()
+    model_conductual.load_model(os.path.join(os.path.dirname(__file__), "conductualModel.cbm"))
+
+    eyra = getEYRAnalysis(dataUnificada, prob_clinica, prob_conductual, model_clinico, model_conductual)
+    return eyra

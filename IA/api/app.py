@@ -1,7 +1,7 @@
 import os
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-from IA.sistema_experto.modelSUnificate import clinicPrediction, conductualPrediction, getMetricas
+from IA.sistema_experto.modelSUnificate import clinicPrediction, conductualPrediction, getMetricas, getEYRA
 
 app = Flask(__name__)
 
@@ -31,6 +31,13 @@ def get_metricas():
     metricas_result = getMetricas(data)
     return jsonify({ "metricas_result": metricas_result })
 
-if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 5000))
-    app.run(host="0.0.0.0", port=port, debug=True)
+@app.route("/api/eyra", methods=["POST"])
+def get_eyra():
+    try:
+        data = request.json
+        eyra_result = getEYRA(data)
+        return jsonify({ "eyra_result": eyra_result })
+    except Exception as e:
+        import traceback
+        print(traceback.format_exc())  # Se verá en los logs de Render
+        return jsonify({ "error": str(e) }), 500
